@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Minha Localização</title>
+</head>
+<body>
+    <h1>Obtendo sua localização...</h1>
+    <p id="status">Aguardando permissão...</p>
+    <p id="location"></p>
+
+    <script>
+        function sucesso(posicao) {
+            const latitude = posicao.coords.latitude;
+            const longitude = posicao.coords.longitude;
+
+            document.getElementById('status').textContent = "Localização obtida com sucesso!";
+            document.getElementById('location').textContent = `Latitude: ${latitude}, Longitude: ${longitude}`;
+
+            // Você pode enviar esses dados para um servidor, se quiser:
+            // fetch('/salvar-localizacao', {
+            //     method: 'POST',
+            //     headers: { 'Content-Type': 'application/json' },
+            //     body: JSON.stringify({ latitude, longitude })
+            // });
+        }
+
+        function erro(err) {
+            document.getElementById('status').textContent = `Erro ao obter localização: ${err.message}`;
+        }
+
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(sucesso, erro);
+        } else {
+            document.getElementById('status').textContent = "Geolocalização não é suportada por este navegador.";
+        }
+    </script>
+</body>
+</html>
